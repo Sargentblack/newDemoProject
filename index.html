@@ -3,24 +3,70 @@
 <head>
   <meta charset="UTF-8" />
   <title>Supabase HTML Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+    input, button {
+      padding: 8px;
+      margin: 4px 0;
+      width: 100%;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+  </style>
 </head>
 <body>
-  <h1>Supabase Test</h1>
-  <button id="load-data">Load Data</button>
+  <h1>Supabase HTML Example</h1>
+
+  <h2>Insert Data</h2>
+  <input type="text" id="name" placeholder="Enter name">
+  <input type="number" id="age" placeholder="Enter age">
+  <button id="insert-btn">Insert Row</button>
+
+  <h2>Fetch Data</h2>
+  <button id="fetch-btn">Load Data</button>
   <pre id="output"></pre>
 
   <!-- Load Supabase from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Your Supabase credentials
+    // Your Supabase credentials (replace with your own)
     const SUPABASE_URL = "https://gkylzafikelokhsefayx.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdreWx6YWZpa2Vsb2toc2VmYXl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ5MDU4ODgsImV4cCI6MjA3MDQ4MTg4OH0.VK6AP-U6a-qFdDqsWM445L6NG39XlZlDlfIdQlZndg0";
 
-    // Create a Supabase client
+    // Create Supabase client
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Button click event
-    document.getElementById("load-data").addEventListener("click", async () => {
+    // Insert row into table
+    document.getElementById("insert-btn").addEventListener("click", async () => {
+      const name = document.getElementById("name").value.trim();
+      const age = parseInt(document.getElementById("age").value);
+
+      if (!name || isNaN(age)) {
+        alert("Please enter valid name and age");
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("TablePractice") // Replace with your table name
+        .insert([{ name: name, age: age }]);
+
+      if (error) {
+        alert("Error inserting: " + error.message);
+      } else {
+        alert("Row inserted successfully!");
+      }
+    });
+
+    // Fetch all rows
+    document.getElementById("fetch-btn").addEventListener("click", async () => {
       const { data, error } = await supabase
         .from("TablePractice") // Replace with your table name
         .select("*");
@@ -34,5 +80,3 @@
   </script>
 </body>
 </html>
-
-
