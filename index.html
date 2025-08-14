@@ -1,8 +1,38 @@
+<!DOCTYPE html>
 <html>
-	<head>
-	</head>
-	<body>
-		<h1>Hello World</h1>
-	</body>
+<head>
+  <meta charset="UTF-8" />
+  <title>Supabase HTML Example</title>
+</head>
+<body>
+  <h1>Supabase Test</h1>
+  <button id="load-data">Load Data</button>
+  <pre id="output"></pre>
+
+  <!-- Load Supabase from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Your Supabase credentials
+    const SUPABASE_URL = "https://gkylzafikelokhsefayx.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdreWx6YWZpa2Vsb2toc2VmYXl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ5MDU4ODgsImV4cCI6MjA3MDQ4MTg4OH0.VK6AP-U6a-qFdDqsWM445L6NG39XlZlDlfIdQlZndg0";
+
+    // Create a Supabase client
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Button click event
+    document.getElementById("load-data").addEventListener("click", async () => {
+      const { data, error } = await supabase
+        .from("TablePractice") // Replace with your table name
+        .select("*");
+
+      if (error) {
+        document.getElementById("output").textContent = "Error: " + error.message;
+      } else {
+        document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+      }
+    });
+  </script>
+</body>
 </html>
+
 
