@@ -28,6 +28,7 @@
   <h2>Insert Data</h2>
   <input type="text" id="name" placeholder="Enter name">
   <input type="number" id="age" placeholder="Enter age">
+  <input type="text" id="email" placeholder="Enter email">
   <button id="insert-btn">Insert Row</button>
 
   <h2>Fetch Data</h2>
@@ -48,6 +49,7 @@
     document.getElementById("insert-btn").addEventListener("click", async () => {
       const name = document.getElementById("name").value.trim();
       const age = parseInt(document.getElementById("age").value);
+	  const email = document.getElementById("name").value.trim();
 
       if (!name || isNaN(age)) {
         alert("Please enter valid name and age");
@@ -56,7 +58,7 @@
 
       const { data, error } = await supabase
         .from("TablePractice") // Replace with your table name
-        .insert([{ name: name, age: age }]);
+        .insert([{ name: name, age: age, email: email }]);
 
       if (error) {
         alert("Error inserting: " + error.message);
